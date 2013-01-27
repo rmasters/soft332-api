@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+<nav class="inline">
+<ul>
+    <li>Mumblr API documentation</li>
+    <li><a href="index.html">Home</a></li>
+</ul>
+</nav>
+<h1 id="users">Users</h1>
+<p>The <strong>user</strong> resource allows developers to create, view, edit and delete users.</p>
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="get-userusername">GET /user/:username</h3>
+<p>This method allows you to get any user’s information by their username.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>username</code> - the username of the user</li>
+</ul>
+<p>Responses:</p>
+<ul>
+<li>User information as JSON (200)</li>
+<li><code>error: &quot;No user found with that username&quot;</code> - no user was found.</li>
+</ul>
+<h3 id="post-user">POST /user</h3>
+<p>This method allows you to register new users.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>name</code> - their username, must be lowercase and comprised of characters in the set a-z, _, 0–9. (required)</li>
+<li><code>password</code> - their password. (required)</li>
+</ul>
+<p>Responses:</p>
+<ul>
+<li><code>message: &quot;Created user&quot;</code> - the user has been created. (200)</li>
+<li><code>error: &quot;You cannot be authenticated and create another user&quot;</code> - ensure you are not passing <code>X-Auth-Token</code> to the request. (401)</li>
+<li><code>error: &quot;Supply a username and password&quot;</code> - you are missing one of the two required fields. (406)</li>
+</ul>
+<h3 id="post-userusername">POST /user/:username</h3>
+<p>This method allows you to update a user’s details. You must first <a href="sessions.html">authenticate</a> as the user.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>name</code> - their username, must be lowercase and comprised of characters in the set a-z, _, 0–9. (optional)</li>
+<li><code>password</code> - their password. (optional)</li>
+</ul>
+<p>Responses:</p>
+<ul>
+<li><code>message: &quot;Updated user&quot;</code> - user was updated. (200)</li>
+<li><code>error: &quot;You must be authenticated as the user you wish to edit&quot;</code> - you need to be authenticated as this user. (401)</li>
+</ul>
+<h3 id="delete-userusername">DELETE /user/:username</h3>
+<p>This method allows you to delete the user account of the authenticated user.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>name</code> - their username.</li>
+</ul>
+<p>Responses:</p>
+<ul>
+<li>`message: “User (username) deleted” - user deleted. (200)</li>
+<li>`message: “Failed to delete user (username)” - user was not deleted - an internal error.</li>
+<li><code>error: &quot;You are not authorised to access this entity&quot;</code> - you must be authenticated as this user. (401)</li>
+<li><code>error: &quot;User not found&quot;</code> - no user with that username was found. (404)</li>
+</ul>
+
+</body>
+</html>

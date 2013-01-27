@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+<nav class="inline">
+<ul>
+    <li>Mumblr API documentation</li>
+    <li><a href="index.html">Home</a></li>
+</ul>
+</nav>
+<h1 id="mumblr-rest-api-documentation">Mumblr REST API Documentation</h1>
+<p>Mumblr is a micro-blogging service that allows it’s users to publish short messages that can be seen by anybody.</p>
+<h2 id="resource-endpoints">Resource endpoints</h2>
+<p>This is a list of all endpoints exposed by the application. All endpoints need to be made to a domain and prefixed by an API version. For this version of the API these requests will need to be sent to:</p>
+<pre><code>http://api.mumblr.rossmasters.com/1/
+</code></pre>
+<p>So, for example, a request to get information about the user <code>rossmasters</code>:</p>
+<pre><code>http://api.mumblr.rossmasters.com/1/user/rossmasters
+</code></pre>
+<p>Each version of the API will increment the version number used in the URI for all requests (a changelog will be available to describe which endpoints have actually changed and the details).</p>
+<p>Endpoints marked with an asterisk (*) will require authentication to use. This is further explained in the <a href="sessions.html">session</a> resource documentation.</p>
+<h3 id="users"><a href="users.html">Users</a></h3>
+<h4 id="get-userid">GET /user/:id</h4>
+<p>Show information about the user with the username (id) given.</p>
+<h4 id="post-userid">POST /user/:id *</h4>
+<p>Update user information for a user (which you will need to be authenticated as).</p>
+<h4 id="post-user">POST /user</h4>
+<p>Create a new user.</p>
+<h4 id="delete-userid">DELETE /user/:id *</h4>
+<p>Delete a user (which you will need to be authenticated as).</p>
+<h3 id="session-authentication"><a href="sessions.html">Session (Authentication)</a></h3>
+<h4 id="get-session">GET /session</h4>
+<p>Get session information for a session token.</p>
+<h4 id="post-session">POST /session</h4>
+<p>Create a new session by authenticating as a user.</p>
+<h4 id="delete-session">DELETE /session *</h4>
+<p>End a session by deleting it’s token.</p>
+<h3 id="posts"><a href="posts.html">Posts</a></h3>
+<h4 id="post-post">POST /post *</h4>
+<p>Post a new message as a user.</p>
+<h4 id="get-postid">GET /post/:id</h4>
+<p>Get an individual post.</p>
+<h4 id="delete-postid">DELETE /post/:id *</h4>
+<p>Delete a post made by a user (who you will need to be authenticated as).</p>
+<h3 id="stream"><a href="stream.html">Stream</a></h3>
+<h4 id="get-stream">GET /stream</h4>
+<p>Get the 30 most recently made posts by all users.</p>
+<h2 id="generic-errors">Generic errors</h2>
+<p>A few errors that can be emitted by all requests include:</p>
+<ul>
+<li><code>No resource found for your request</code> - attempted to access a URL that doesn’t have a resource attached to it. Check your URL. (404)</li>
+<li><code>No use for (verb) on (resource)</code> - attempting to use a verb (e.g. POST) on a resource that has no implementation for this case. (404)</li>
+</ul>
+
+</body>
+</html>

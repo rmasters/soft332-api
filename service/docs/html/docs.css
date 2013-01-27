@@ -1,0 +1,17 @@
+body {
+    font: 1.00em Arial;
+    margin: 0 auto;
+    padding: 1.50em 0;
+    width: 960px;
+}
+
+nav.inline {
+    border-bottom: 3px solid #ccc;
+    margin-bottom: 1.50em;
+}
+nav.inline ul {
+    margin: 0;
+}
+nav.inline li {
+    display: inline-block;
+}

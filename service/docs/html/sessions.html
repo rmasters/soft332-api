@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="docs.css" />
+</head>
+<body>
+<nav class="inline">
+<ul>
+    <li>Mumblr API documentation</li>
+    <li><a href="index.html">Home</a></li>
+</ul>
+</nav>
+<h1 id="sessions">Sessions</h1>
+<p>The <strong>session</strong> resource handles the authentication of a user, which is required for some requests.</p>
+<h2 id="authentication-method">Authentication method</h2>
+<p>To authenticate with the API, you will need a pair of user credentials (username and password).</p>
+<ol type="1">
+<li>Send a POST request to <code>/session</code> with the username and password (see below).</li>
+<li>You will receive a message to confirm it’s success, a 128 character token and the session information.</li>
+<li>Store this token in your application, you will need to pass it to future requests by sending a HTTP header <code>X-Auth-Token: abcd...12f</code> with requests that require it.</li>
+<li>You can use this token as long as the session is valid (which will be until it’s expiry date, included in the response from the POST to <code>/session</code>.</li>
+</ol>
+<p>Sessions last approximately one week before the user must re-authenticate.</p>
+<h2 id="endpoints">Endpoints</h2>
+<h3 id="post-session">POST /session</h3>
+<p>This method allows you to authenticate as a user and make requests specific to their account.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>username</code> - the user’s username. (required)</li>
+<li><code>password</code> - the user’s password. (required)</li>
+</ul>
+<p>Ensure you do not have a token set in X-Auth-Token before making this request.</p>
+<p>Responses:</p>
+<ul>
+<li><code>message: &quot;Authenticated as (username)&quot;</code> - successfully authenticated, followed with session information. Remember to keep the token from this response! (200)</li>
+<li><code>error: &quot;Credentials were invalid&quot;</code> - no match was found for the credentials supplied. (401)</li>
+<li><code>error: &quot;username and password must be supplied&quot;</code> - missing a parameter. (406)</li>
+</ul>
+<h3 id="get-session">GET /session</h3>
+<h3 id="get-sessiontoken">GET /session/:token</h3>
+<p>This method will give you information about your session token for this user.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>token</code> - a session token, as provided by <code>POST /session</code>. (required, or passed as a <code>X-Auth-Token</code> header)</li>
+</ul>
+<p>If a token was not in the URL, but was available in X-Auth-Token that will be used instead.</p>
+<p>Responses:</p>
+<ul>
+<li><code>status: &quot;Session valid&quot;</code> - session has not expired (accompanied by user info, creation and expiration time). (200)</li>
+<li><code>status: &quot;Session expired&quot;</code> - session has expired - authenticate the user again. (200)</li>
+<li><code>error: &quot;Invalid session token&quot;</code> - no session was found with that token. (404)</li>
+</ul>
+<h3 id="delete-session">DELETE /session</h3>
+<h3 id="delete-sessiontoken">DELETE /session/:token</h3>
+<p>This method allows you to mark the session as closed, so that the token cannot be used for further authenticated requests.</p>
+<p>Parameters:</p>
+<ul>
+<li><code>token</code> - a session token, as provided by <code>POST /session</code>. (required, or passed as a <code>X-Auth-Token</code> header)</li>
+</ul>
+<p>If a token was not in the URL, but was available in X-Auth-Token that will be used instead.</p>
+<p>Responses:</p>
+<ul>
+<li><code>status: &quot;Session ended&quot;</code> - session closed successfully. (200)</li>
+<li><code>status: &quot;Session not ended, probably already closed.&quot;</code> - session not closed, however this is usually due to it already being deleted internally. (200)</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+    ServerName api.soft332.rossmasters.com
+    DocumentRoot /home/ross/soft332/service/public
+
+    <Directory /home/ross/soft332/service/public>
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        Order allow,deny
+        allow from all
+
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteCond %{REQUEST_FILENAME} !-s
+        RewriteRule .* index.php [L]
+    </Directory>
+
+    ErrorLog /home/ross/soft332/service/logs/error.log
+    LogLevel warn
+    CustomLog /home/ross/soft332/service/logs/access.log combined
+    <Directory /home/ross/soft332/service/logs>
+        Order deny,allow
+        deny from all
+    </Directory>
+</VirtualHost>
